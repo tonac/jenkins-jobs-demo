@@ -5,7 +5,7 @@ folder('Demo')
 def springBootBasicJob = job('Demo/Spring Boot App Basic Job')
 JobConfig.basicJob(
         springBootBasicJob,
-        repo = "spring-boot-gradle-boilerplate",
+        repo = 'https://github.com/tonac/spring-boot-gradle-boilerplate.git',
         includeBranches = "main",
         ignoreOnPush = false,
         buildPR = true
