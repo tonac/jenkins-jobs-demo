@@ -65,12 +65,36 @@ class JobConfig {
                     }
                 }
             }
-            
+
             branchSources {
                 git {
                     id('123456789') // IMPORTANT: use a constant and unique identifier
                     remote("$githubAddress/$repo")
                     includes(includeBranches)
+
+                    ignoreOnPushNotifications(true)
+
+                    traits {
+                        'org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait' {
+                            strategyId('1')
+                        }
+                        if (buildPR) {
+                            'org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait' {
+                                strategyId('1')
+                            }
+                        }
+                        'jenkins.plugins.git.traits.CloneOptionTrait' {
+                            extension(class: "hudson.plugins.git.extensions.impl.CloneOption") {
+                                shallow("false")
+                                noTags("false")
+                                depth("0")
+                                honorRefspec("false")
+                            }
+                        }
+                        if (ignoreOnPush) {
+                            'jenkins.plugins.git.traits.IgnoreOnPushNotificationTrait'()
+                        }
+                    }
                 }
             }
 
