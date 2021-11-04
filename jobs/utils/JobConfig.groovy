@@ -19,12 +19,13 @@ class JobConfig {
                     useWrapper(true)
                     makeExecutable(true)
                 }
+
+                shell("echo Hello")
             }
 
             triggers {
                 cron(cronTrigger)
             }
-
         }
     }
 
