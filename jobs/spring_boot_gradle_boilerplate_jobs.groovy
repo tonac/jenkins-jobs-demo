@@ -2,7 +2,7 @@ import utils.JobConfig
 
 folder('Demo')
 
-def springBootBasicJob = multibranchPipelineJob('Demo/Spring Boot App Basic Job')
+def springBootBasicJob = job('Demo/Spring Boot App Basic Job')
 JobConfig.basicJob(
         springBootBasicJob,
         repo = "spring-boot-gradle-boilerplate",
