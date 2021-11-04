@@ -31,7 +31,7 @@ class JobConfig {
     }
 
     static def basicPipeline(job, repo, includeBranches = "master *.x-maintenance PR-*", ignoreOnPush = false,
-                             buildPR = true, jenkinsfilePath = "Jenkinsfile", cronTrigger = '@daily') {
+                             buildPR = true, jenkinsfilePath = "Jenkinsfile", cronTrigger = 'H 23 * * *') {
         job.with {
             branchSources {
                 github {
