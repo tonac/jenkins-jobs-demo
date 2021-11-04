@@ -7,6 +7,5 @@ JobConfig.basicPipeline(
         includeBranches = "master",
         ignoreOnPush = false,
         buildPR = true,
-        jenkinsfilePath = "Jenkinsfile",
-        interval = 24 * 60
+        jenkinsfilePath = "Jenkinsfile"
 )

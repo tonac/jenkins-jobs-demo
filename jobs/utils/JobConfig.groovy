@@ -3,7 +3,7 @@ package utils
 class JobConfig {
 
     static def basicPipeline(job, repo, includeBranches = "master *.x-maintenance PR-*", ignoreOnPush = false,
-                             buildPR = true, jenkinsfilePath = "Jenkinsfile", periodicInterval = 1440) {
+                             buildPR = true, jenkinsfilePath = "Jenkinsfile", cronTrigger = 'H 23 * * *') {
 
         job.with {
             configure {
@@ -61,13 +61,7 @@ class JobConfig {
             }
 
             triggers {
-                if (interval > 0) {
-                    periodicFolderTrigger {
-                        interval(periodicInterval)
-                    }
-                } else {
-                    cron('H 23 * * *')
-                }
+                cron(cronTrigger)
             }
 
         }
