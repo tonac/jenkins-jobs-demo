@@ -15,7 +15,7 @@ def springBootPipelineJob = multibranchPipelineJob('Demo/Spring Boot App Multibr
 JobConfig.basicPipeline(
         springBootPipelineJob,
         repo = "spring-boot-gradle-boilerplate",
-        includeBranches = "develop",
+        includeBranches = "master develop PR-*",
         ignoreOnPush = false,
         buildPR = true,
         jenkinsfilePath = "Jenkinsfile"

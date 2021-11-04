@@ -67,9 +67,6 @@ class JobConfig {
                                 includes(includeBranches)
                                 excludes()
                             }
-                            'org.jenkinsci.plugins.github__branch__source.SSHCheckoutTrait' {
-                                credentialsId(JENKINS_CREDENTIALS_FOR_GITHUB)
-                            }
                             'jenkins.plugins.git.traits.CloneOptionTrait' {
                                 extension(class: "hudson.plugins.git.extensions.impl.CloneOption") {
                                     shallow("false")
