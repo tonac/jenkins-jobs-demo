@@ -80,11 +80,11 @@ class JobConfig {
 //                            }
 //                        }
 //                    }
-                
-                    strategy(class: "jenkins.branch.DefaultBranchPropertyStrategy") {
-                        properties(class: "empty-list")
-                    }
-                }
+//
+//                    strategy(class: "jenkins.branch.DefaultBranchPropertyStrategy") {
+//                        properties(class: "empty-list")
+//                    }
+//                }
             }
         }
     }
