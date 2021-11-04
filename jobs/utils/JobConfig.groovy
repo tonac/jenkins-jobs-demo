@@ -35,6 +35,7 @@ class JobConfig {
         job.with {
             branchSources {
                 github {
+                    id("80022-$repo")
                     repository(repo)
                     includes(includeBranches)
                     buildOriginPRHead(buildPR)
