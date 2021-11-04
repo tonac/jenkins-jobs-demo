@@ -50,7 +50,7 @@ class JobConfig {
                 it / sources(class: 'jenkins.branch.MultiBranchProject$BranchSourceList') / 'data' / "jenkins.branch.BranchSource" {
                     source(class: "org.jenkinsci.plugins.github_branch_source.GitHubSCMSource") {
                         id('GitHubSource')
-                        repoOwner('xebialabs')
+                        repoOwner('tonac')
                         repository(repo)
                         ignoreOnPushNotifications(true)
 
