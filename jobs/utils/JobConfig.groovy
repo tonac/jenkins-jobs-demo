@@ -7,11 +7,6 @@ class JobConfig {
 
         job.with {
             configure {
-                it / factory(class: 'org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory') {
-                    owner(class: 'org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject', reference: '../..')
-                    scriptPath(jenkinsfilePath)
-                }
-
                 it / sources(class: 'jenkins.branch.MultiBranchProject$BranchSourceList') / 'data' / "jenkins.branch.BranchSource" {
                     source(class: "org.jenkinsci.plugins.github_branch_source.GitHubSCMSource") {
                         id('GitHubSource')
@@ -51,6 +46,14 @@ class JobConfig {
                     strategy(class: "jenkins.branch.DefaultBranchPropertyStrategy") {
                         properties(class: "empty-list")
                     }
+                }
+            }
+
+            steps {
+                gradle {
+                    tasks("clean build")
+                    useWrapper(true)
+                    makeExecutable(true)
                 }
             }
 
