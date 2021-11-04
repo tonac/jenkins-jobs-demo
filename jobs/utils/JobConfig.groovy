@@ -33,6 +33,14 @@ class JobConfig {
     static def basicPipeline(job, repo, includeBranches = "master *.x-maintenance PR-*", ignoreOnPush = false,
                              buildPR = true, jenkinsfilePath = "Jenkinsfile", cronTrigger = 'H 23 * * *') {
         job.with {
+            branchSources {
+                git {
+                    id('123456789') // IMPORTANT: use a constant and unique identifier
+                    remote("$githubAddress/$repo")
+                    includes(includeBranches)
+                }
+            }
+
             configure {
                 it / factory(class: 'org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory') {
                     owner(class: 'org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject', reference: '../..')
@@ -40,6 +48,8 @@ class JobConfig {
                 }
 
                 it / sources(class: 'jenkins.branch.MultiBranchProject$BranchSourceList') / 'data' / "jenkins.branch.BranchSource" {
+                    repoOwner('tonac')
+                    repository(repo)
                     ignoreOnPushNotifications(true)
 
                     traits {
@@ -51,6 +61,11 @@ class JobConfig {
                                 strategyId('1')
                             }
                         }
+                        'jenkins.scm.impl.trait.WildcardSCMHeadFilterTrait' {
+                            includes(includeBranches)
+                            excludes()
+                        }
+
                         'jenkins.plugins.git.traits.CloneOptionTrait' {
                             extension(class: "hudson.plugins.git.extensions.impl.CloneOption") {
                                 shallow("false")
@@ -59,47 +74,12 @@ class JobConfig {
                                 honorRefspec("false")
                             }
                         }
+
                         if (ignoreOnPush) {
                             'jenkins.plugins.git.traits.IgnoreOnPushNotificationTrait'()
                         }
                     }
                 }
-            }
-
-            branchSources {
-                git {
-                    id('123456789') // IMPORTANT: use a constant and unique identifier
-                    remote("$githubAddress/$repo")
-                    includes(includeBranches)
-
-                    ignoreOnPushNotifications(true)
-
-                    traits {
-                        'org.jenkinsci.plugins.github__branch__source.BranchDiscoveryTrait' {
-                            strategyId('1')
-                        }
-                        if (buildPR) {
-                            'org.jenkinsci.plugins.github__branch__source.OriginPullRequestDiscoveryTrait' {
-                                strategyId('1')
-                            }
-                        }
-                        'jenkins.plugins.git.traits.CloneOptionTrait' {
-                            extension(class: "hudson.plugins.git.extensions.impl.CloneOption") {
-                                shallow("false")
-                                noTags("false")
-                                depth("0")
-                                honorRefspec("false")
-                            }
-                        }
-                        if (ignoreOnPush) {
-                            'jenkins.plugins.git.traits.IgnoreOnPushNotificationTrait'()
-                        }
-                    }
-                }
-            }
-
-            triggers {
-                cron(cronTrigger)
             }
         }
     }
