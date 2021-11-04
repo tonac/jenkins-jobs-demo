@@ -1,12 +1,13 @@
 package utils
 
 class JobConfig {
+    static final def githubAddress = 'https://github.com'
 
     static def basicJob(job, repo, includeBranches = "master *.x-maintenance PR-*", ignoreOnPush = false,
-                        buildPR = true, cronTrigger = 'H 23 * * *') {
+                             buildPR = true, cronTrigger = 'H 23 * * *') {
         job.with {
             scm {
-                git(repo) { node ->
+                git("$githubAddress/$repo") {  node ->
                     // is hudson.plugins.git.GitSCM
                     node / gitConfigName('tonac')
                     node / gitConfigEmail('antonio.sostar56@gmail.com')
@@ -30,16 +31,26 @@ class JobConfig {
     }
 
     static def basicPipeline(job, repo, includeBranches = "master *.x-maintenance PR-*", ignoreOnPush = false,
-                             buildPR = true, jenkinsfilePath = "Jenkinsfile", cronTrigger = 'H 23 * * *') {
+                             buildPR = true, jenkinsfilePath = "Jenkinsfile", cronTrigger = '@daily') {
         job.with {
-            cpsScm {
-                scm {
-                    git {
-                        remote {
-                            github("tonac/$repo")
-                        }
-                    }
+            branchSources {
+                github {
+                    id('123456789') // IMPORTANT: use a constant and unique identifier
+                    repository(repo)
+                    includes(includeBranches)
+                    buildOriginPRHead(buildPR)
                 }
+            }
+
+            configure {
+                it / factory(class: 'org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory') {
+                    owner(class: 'org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject', reference: '../..')
+                    scriptPath(jenkinsfilePath)
+                }
+            }
+
+            triggers {
+                cron(cronTrigger)
             }
         }
     }
