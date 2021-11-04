@@ -6,7 +6,11 @@ class JobConfig {
                              buildPR = true, cronTrigger = 'H 23 * * *') {
         job.with {
             scm {
-                git(repo)
+                git(repo) {  node ->
+                    // is hudson.plugins.git.GitSCM
+                    node / gitConfigName('tonac')
+                    node / gitConfigEmail('antonio.sostar56@gmail.com')
+                }
             }
 
             steps {
