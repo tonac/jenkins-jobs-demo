@@ -46,12 +46,6 @@ class JobConfig {
                 }
             }
 
-            orphanedItemStrategy {
-                discardOldItems {
-                    daysToKeep(1)
-                }
-            }
-
             triggers {
                 cron(cronTrigger)
             }
