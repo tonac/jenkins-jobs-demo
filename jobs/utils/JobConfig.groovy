@@ -33,13 +33,13 @@ class JobConfig {
     static def basicPipeline(job, repo, includeBranches = "master *.x-maintenance PR-*", ignoreOnPush = false,
                              buildPR = true, jenkinsfilePath = "Jenkinsfile", cronTrigger = 'H 23 * * *') {
         job.with {
-            branchSources {
-                git {
-                    id('123456789') // IMPORTANT: use a constant and unique identifier
-                    remote("$githubAddress/$repo")
-                    includes(includeBranches)
-                }
-            }
+//            branchSources {
+//                git {
+//                    id('123456789') // IMPORTANT: use a constant and unique identifier
+//                    remote("$githubAddress/tonac/$repo")
+//                    includes(includeBranches)
+//                }
+//            }
 
             configure {
                 it / factory(class: 'org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory') {

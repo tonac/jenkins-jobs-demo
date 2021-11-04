@@ -14,7 +14,7 @@ JobConfig.basicJob(
 def springBootPipelineJob = multibranchPipelineJob('Demo/Spring Boot App Multibranch Pipeline')
 JobConfig.basicPipeline(
         springBootPipelineJob,
-        repo = "tonac/spring-boot-gradle-boilerplate.git",
+        repo = "spring-boot-gradle-boilerplate",
         includeBranches = "develop",
         ignoreOnPush = false,
         buildPR = true,
